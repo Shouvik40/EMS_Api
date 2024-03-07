@@ -30,27 +30,51 @@ namespace EmsData.Repository
             return _context.Departments.FirstOrDefault(d => d.Dept_ID == deptId);
         }
 
-        public void AddDepartment(Department department)
+        public bool AddDepartment(Department department)
         {
-            _context.Departments.Add(department);
-            _context.SaveChanges();
-        }
-
-        public void UpdateDepartment(Department department)
-        {
-            _context.Entry(department).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void DeleteDepartment(int id)
-        {
-            var department = _context.Departments.Find(id);
-            if (department != null)
+            try
             {
-                _context.Departments.Remove(department);
+                _context.Database.ExecuteSqlRaw("INSERT INTO Departments (Dept_Name) VALUES ({0})", department.Dept_Name);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        public bool UpdateDepartment(Department department)
+        {
+            try
+            {
+                _context.Entry(department).State = EntityState.Modified;
                 _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteDepartment(int id)
+        {
+            try
+            {
+                var department = _context.Departments.Find(id);
+                if (department != null)
+                {
+                    _context.Departments.Remove(department);
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }
 }
-

@@ -23,19 +23,43 @@ namespace EmsData.Services
             return _employeeRepo.GetEmployeeById(id);
         }
 
-        public void AddEmployee(Employee employee)
+        public bool AddEmployee(Employee employee)
         {
-            _employeeRepo.AddEmployee(employee);
+            try
+            {
+                _employeeRepo.AddEmployee(employee);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void UpdateEmployee(Employee employee)
+        public bool UpdateEmployee(Employee employee)
         {
-            _employeeRepo.UpdateEmployee(employee);
+            try
+            {
+                _employeeRepo.UpdateEmployee(employee);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void DeleteEmployee(string id)
+        public bool DeleteEmployee(string id)
         {
-            _employeeRepo.DeleteEmployee(id);
+            try
+            {
+                _employeeRepo.DeleteEmployee(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

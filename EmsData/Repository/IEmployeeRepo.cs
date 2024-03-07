@@ -7,8 +7,8 @@ namespace EmsData.Repository
     {
         IList<Employee> GetAllEmployees();
         Employee GetEmployeeById(string id);
-        void AddEmployee(Employee employee);
-        void UpdateEmployee(Employee employee);
-        void DeleteEmployee(string id);
+        bool AddEmployee(Employee employee);
+        bool UpdateEmployee(Employee employee);
+        bool DeleteEmployee(string id);
     }
 }

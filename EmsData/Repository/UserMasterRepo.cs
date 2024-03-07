@@ -24,6 +24,10 @@ namespace EmsData.Repository
         {
             return _context.User_Masters.Find(id);
         }
+        public async Task<User_Master> GetUserByUsername(string username)
+        {
+            return await _context.User_Masters.FirstOrDefaultAsync(u => u.UserName == username);
+        }
 
         public void AddUserMaster(User_Master userMaster)
         {

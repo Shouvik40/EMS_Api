@@ -25,25 +25,49 @@ namespace EmsData.Repository
             return _context.Employees.Find(id);
         }
 
-        public void AddEmployee(Employee employee)
+        public bool AddEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
-        }
-
-        public void UpdateEmployee(Employee employee)
-        {
-            _context.Entry(employee).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void DeleteEmployee(string id)
-        {
-            var employee = _context.Employees.Find(id);
-            if (employee != null)
+            try
             {
-                _context.Employees.Remove(employee);
+                _context.Employees.Add(employee);
                 _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateEmployee(Employee employee)
+        {
+            try
+            {
+                _context.Entry(employee).State = EntityState.Modified;
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteEmployee(string id)
+        {
+            try
+            {
+                var employee = _context.Employees.Find(id);
+                if (employee != null)
+                {
+                    _context.Employees.Remove(employee);
+                    _context.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

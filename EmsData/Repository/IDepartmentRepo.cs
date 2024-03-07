@@ -8,8 +8,8 @@ namespace EmsData.Repository
         IList<Department> GetAllDepartments();
         Department GetDepartmentById(int id);
         Department GetDepartmentByDeptId(int deptId);
-        void AddDepartment(Department department);
-        void UpdateDepartment(Department department);
-        void DeleteDepartment(int id);
+        bool AddDepartment(Department department); // Change return type to bool
+        bool UpdateDepartment(Department department);
+        bool DeleteDepartment(int id);
     }
 }

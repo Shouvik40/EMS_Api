@@ -28,19 +28,22 @@ namespace EmsData.Services
             return _departmentRepo.GetDepartmentByDeptId(deptId);
         }
 
-        public void AddDepartment(Department department)
+        public bool AddDepartment(Department department)
         {
             _departmentRepo.AddDepartment(department);
+            return true;
         }
 
-        public void UpdateDepartment(Department department)
+        public bool UpdateDepartment(Department department)
         {
             _departmentRepo.UpdateDepartment(department);
+            return true;
         }
 
-        public void DeleteDepartment(int id)
+        public bool DeleteDepartment(int id)
         {
             _departmentRepo.DeleteDepartment(id);
+            return true;
         }
     }
 }

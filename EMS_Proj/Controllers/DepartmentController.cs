@@ -50,12 +50,19 @@ namespace EMS_Proj.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Department> AddDepartment(Department department)
+        public IActionResult AddDepartment(Department department)
         {
             try
             {
-                _departmentService.AddDepartment(department);
-                return CreatedAtAction(nameof(GetDepartmentById), new { id = department.Dept_ID }, department);
+                bool success = _departmentService.AddDepartment(department);
+                if (success)
+                {
+                    return CreatedAtAction(nameof(GetDepartmentById), new { id = department.Dept_ID }, department);
+                }
+                else
+                {
+                    return BadRequest("Failed to add department");
+                }
             }
             catch (Exception ex)
             {
@@ -63,18 +70,13 @@ namespace EMS_Proj.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateDepartment(int id, Department department)
+        [HttpPut]
+        public IActionResult UpdateDepartment(Department department)
         {
             try
             {
-                if (id != department.Dept_ID)
-                {
-                    return BadRequest("Department ID mismatch");
-                }
-
                 _departmentService.UpdateDepartment(department);
-                return NoContent();
+                return Ok(department);
             }
             catch (Exception ex)
             {
@@ -88,12 +90,14 @@ namespace EMS_Proj.Controllers
             try
             {
                 _departmentService.DeleteDepartment(id);
-                return NoContent();
+                var departments = _departmentService.GetAllDepartments;
+                return Ok(departments);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
     }
 }

@@ -50,12 +50,14 @@ namespace EMS_Proj.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Employee> AddEmployee(Employee employee)
+        public ActionResult<IEnumerable<Employee>> AddEmployee(Employee employee)
         {
             try
             {
+                Console.WriteLine(employee);
                 _employeeService.AddEmployee(employee);
-                return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Emp_ID }, employee);
+        
+                return Ok(employee);
             }
             catch (Exception ex)
             {
@@ -63,40 +65,33 @@ namespace EMS_Proj.Controllers
             }
         }
 
-
-            [HttpPut("{id}")]
-            public IActionResult UpdateEmployee(string id, Employee employee)
+        [HttpPut]
+        public ActionResult<IEnumerable<Employee>> UpdateEmployee(Employee employee)
+        {
+            try
             {
-                try
-                {
-                    if (id != employee.Emp_ID)
-                    {
-                        return BadRequest("Employee ID mismatch");
-                    }
-
-                    _employeeService.UpdateEmployee(employee);
-                    return NoContent();
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
-                }
+                _employeeService.UpdateEmployee(employee);           
+                return Ok(employee);
             }
-
-            [HttpDelete("{id}")]
-            public IActionResult DeleteEmployee(string id)
+            catch (Exception ex)
             {
-                try
-                {
-                    _employeeService.DeleteEmployee(id);
-                    return NoContent();
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
-                }
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<IEnumerable<Employee>> DeleteEmployee(string id)
+        {
+            try
+            {
+                _employeeService.DeleteEmployee(id);
+                var updatedEmployees = _employeeService.GetAllEmployees();
+                return Ok(updatedEmployees);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }
-
-
+}
